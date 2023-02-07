@@ -19,6 +19,7 @@ type SpotV1ServiceI interface {
 	SpotQuoteKline(SpotQuoteKlineParam) (*SpotQuoteKlineResponse, error)
 	SpotQuoteTicker24hr(SpotQuoteTicker24hrParam) (*SpotQuoteTicker24hrResponse, error)
 	SpotQuoteTickerPrice(SpotQuoteTickerPriceParam) (*SpotQuoteTickerPriceResponse, error)
+	SpotQuoteTickerPrices() (*SpotQuoteTickerPricesResponse, error)
 	SpotQuoteTickerBookTicker(SpotQuoteTickerBookTickerParam) (*SpotQuoteTickerBookTickerResponse, error)
 
 	// Account Data Endpoints
@@ -342,6 +343,12 @@ type SpotQuoteTickerPriceResponse struct {
 	Result         SpotQuoteTickerPriceResult `json:"result"`
 }
 
+// SpotQuoteTickerPricesResponse :
+type SpotQuoteTickerPricesResponse struct {
+	CommonResponse `json:",inline"`
+	Result         []SpotQuoteTickerPriceResult `json:"result"`
+}
+
 // SpotQuoteTickerPriceResult :
 type SpotQuoteTickerPriceResult struct {
 	Symbol string `json:"symbol"`
@@ -358,6 +365,16 @@ func (s *SpotV1Service) SpotQuoteTickerPrice(param SpotQuoteTickerPriceParam) (*
 	}
 
 	if err := s.client.getPublicly("/spot/quote/v1/ticker/price", queryString, &res); err != nil {
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+func (s *SpotV1Service) SpotQuoteTickerPrices() (*SpotQuoteTickerPricesResponse, error) {
+	var res SpotQuoteTickerPricesResponse
+
+	if err := s.client.getPublicly("/spot/quote/v1/ticker/price", url.Values{}, &res); err != nil {
 		return nil, err
 	}
 
@@ -679,31 +696,7 @@ type SpotOpenOrdersParam struct {
 // SpotOpenOrdersResponse :
 type SpotOpenOrdersResponse struct {
 	CommonResponse `json:",inline"`
-	Result         []SpotOpenOrdersResult `json:"result"`
-}
-
-// SpotOpenOrdersResult :
-type SpotOpenOrdersResult struct {
-	AccountID           string `json:"accountId"`
-	ExchangeID          string `json:"exchangeId"`
-	Symbol              string `json:"symbol"`
-	SymbolName          string `json:"symbolName"`
-	OrderLinkID         string `json:"orderLinkId"`
-	OrderID             string `json:"orderId"`
-	Price               string `json:"price"`
-	OrigQty             string `json:"origQty"`
-	ExecutedQty         string `json:"executedQty"`
-	CummulativeQuoteQty string `json:"cummulativeQuoteQty"`
-	AvgPrice            string `json:"avgPrice"`
-	Status              string `json:"status"`
-	TimeInForce         string `json:"timeInForce"`
-	Type                string `json:"type"`
-	Side                string `json:"side"`
-	StopPrice           string `json:"stopPrice"`
-	IcebergQty          string `json:"icebergQty"`
-	Time                string `json:"time"`
-	UpdateTime          string `json:"updateTime"`
-	IsWorking           bool   `json:"isWorking"`
+	Result         []SpotGetOrderResult `json:"result"`
 }
 
 // SpotOpenOrders :

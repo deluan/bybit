@@ -152,7 +152,7 @@ func TestSpotOpenOrders(t *testing.T) {
 		method := http.MethodGet
 		status := http.StatusOK
 		respBody := SpotOpenOrdersResponse{
-			Result: []SpotOpenOrdersResult{
+			Result: []SpotGetOrderResult{
 				{
 					AccountID:           "213998",
 					ExchangeID:          "301",
@@ -205,7 +205,7 @@ func TestSpotOpenOrders(t *testing.T) {
 		method := http.MethodGet
 		status := http.StatusOK
 		respBody := SpotOpenOrdersResponse{
-			Result: []SpotOpenOrdersResult{
+			Result: []SpotGetOrderResult{
 				{
 					AccountID:           "213998",
 					ExchangeID:          "301",
