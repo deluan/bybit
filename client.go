@@ -139,7 +139,7 @@ func (c *Client) Request(req *http.Request, dst interface{}) (err error) {
 			return err
 		}
 
-		if err := json.Unmarshal(body, &dst); err != nil {
+		if err := json.Unmarshal(body, dst); err != nil {
 			return err
 		}
 
@@ -282,7 +282,7 @@ func (c *Client) getPublicly(path string, query url.Values, dst interface{}) err
 		return err
 	}
 
-	if err := c.Request(req, &dst); err != nil {
+	if err := c.Request(req, dst); err != nil {
 		return err
 	}
 
@@ -307,7 +307,7 @@ func (c *Client) getPrivately(path string, query url.Values, dst interface{}) er
 		return err
 	}
 
-	if err := c.Request(req, &dst); err != nil {
+	if err := c.Request(req, dst); err != nil {
 		return err
 	}
 
@@ -363,7 +363,7 @@ func (c *Client) postJSON(path string, body []byte, dst interface{}) error {
 	}
 	req.Header.Set("Content-Type", "application/json")
 
-	if err := c.Request(req, &dst); err != nil {
+	if err := c.Request(req, dst); err != nil {
 		return err
 	}
 
@@ -425,7 +425,7 @@ func (c *Client) postForm(path string, body url.Values, dst interface{}) error {
 		return err
 	}
 
-	if err := c.Request(req, &dst); err != nil {
+	if err := c.Request(req, dst); err != nil {
 		return err
 	}
 
@@ -450,7 +450,7 @@ func (c *Client) deletePrivately(path string, query url.Values, dst interface{})
 		return err
 	}
 
-	if err := c.Request(req, &dst); err != nil {
+	if err := c.Request(req, dst); err != nil {
 		return err
 	}
 
